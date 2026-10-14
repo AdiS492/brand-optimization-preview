@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <base href="/brand-optimization-preview/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="csrf-token" content="cassy-dev-csrf" />
+  <title>Cascade Plus Admin - Products</title>
+  <link rel="stylesheet" href="assets/admin.min.css" />
+  <script defer src="assets/preview-runtime.min.js"></script>
+  <script defer src="assets/admin-demo.min.js"></script>
+</head>
+
+<body class="products-page">
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+    <symbol id="editIcon" viewBox="0 0 24 24">
+      <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+      <path d="M18.375 2.625a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z" />
+      <path d="m15 5 3 3" />
+    </symbol>
+    <symbol id="binIcon" viewBox="0 0 24 24">
+      <path d="M4 7h16" />
+      <path d="M9 7V4h6v3" />
+      <path d="m7 7 1 14h8l1-14" />
+      <path d="M10 11v6M14 11v6" />
+    </symbol>
+  </svg>
+  <header class="legacy-topbar">
+    <a class="legacy-brand" href="Products.html" aria-label="Luxsh Tech home">
+      <span class="legacy-brand-mark" aria-hidden="true"></span>
+      <span>LUXSH<small>TECH</small></span>
+    </a>
+    <button class="menu-button" id="menuButton" type="button" aria-label="Toggle navigation"
+      aria-expanded="true">&#9776;</button>
+    <div class="legacy-account">Welcome, aditi surve</div>
+    <button class="logout-button" type="button" aria-label="Sign out">&#10132;</button>
+  </header>
+
+  <aside class="sidebar products-sidebar" id="productsSidebar" aria-label="Admin navigation">
+    <nav>
+      <a class="nav-item" href="#"><span class="nav-icon" aria-hidden="true">&#9679;</span>Customers</a>
+      <a class="nav-item active" href="Products.html" aria-current="page"><span class="nav-icon"
+          aria-hidden="true">P</span>Products</a>
+      <a class="nav-item" href="#"><span class="nav-icon" aria-hidden="true">&#9704;</span>Purchasing Scenario</a>
+      <a class="nav-item" href="#"><span class="nav-icon" aria-hidden="true">&#8961;</span>Orders Tracking</a>
+      <a class="nav-item" href="#" data-preview-disabled="true"><span class="nav-icon"
+          aria-hidden="true">&#8961;</span>Unprocessed Orders</a>
+      <a class="nav-item" href="#"><span class="nav-icon" aria-hidden="true">&#9649;</span>Reports</a>
+      <a class="nav-item" href="#"><span class="nav-icon" aria-hidden="true">&#9993;</span>Bulk Email</a>
+      <a class="nav-item" href="#"><span class="nav-icon" aria-hidden="true">&#9823;</span>User Creation</a>
+      <a class="nav-item" href="#" data-preview-disabled="true"><span class="nav-icon" aria-hidden="true">&#9635;</span>Price
+        Comparison</a>
+      <a class="nav-item" href="#"><span class="nav-icon" aria-hidden="true">&#9635;</span>Supplier Comparison</a>
+      <a class="nav-item" href="#" data-preview-disabled="true"><span class="nav-icon" aria-hidden="true">&#9654;</span>Cassy
+        Content</a>
+      <a class="nav-item" href="#" data-preview-disabled="true"><span class="nav-icon" aria-hidden="true">&#9711;</span>Help
+        &amp; Support</a>
+    </nav>
+  </aside>
+
+  <main class="app-shell products-app-shell">
+    <h1>Products</h1>
+
+    <div class="workspace products-workspace">
+      <section class="panel products-panel" aria-labelledby="productsHeading">
+        <header class="panel-header">
+          <h2 id="productsHeading">Products Details</h2>
+        </header>
+
+        <div class="product-search product-toolbar">
+          <button class="btn btn-green" id="openProductSearch" type="button"><span class="btn-icon search-icon"
+              aria-hidden="true"></span>Search</button>
+          <button class="btn btn-pink" id="exportProducts" type="button"><span class="btn-icon export-icon"
+              aria-hidden="true"></span>Export Products</button>
+          <button class="btn btn-purple" id="newProductButton" type="button"><span class="btn-icon plus-icon"
+              aria-hidden="true"></span>New Product</button>
+        </div>
+
+        <div class="table-wrap product-table-wrap" tabindex="0">
+          <table class="data-table product-table" data-resizable-table="products">
+            <thead>
+              <tr>
+                <th class="edit-col">Edit</th>
+                <th class="id-col">Product Id</th>
+                <th>Product Name</th>
+                <th class="category-col">Category</th>
+              </tr>
+            </thead>
+            <tbody id="productsBody"></tbody>
+          </table>
+        </div>
+
+        <footer class="pager" aria-label="Product pagination">
+          <button class="pager-link refresh" id="refreshProducts" type="button"
+            aria-label="Refresh products">&#8635;</button>
+          <button class="pager-link" id="firstPage" type="button" aria-label="First page">|&lt;</button>
+          <button class="pager-link" id="previousPage" type="button" aria-label="Previous page">&lt;</button>
+          <label for="pageNumber">Page</label>
+          <input id="pageNumber" type="number" min="1" value="1" />
+          <span>of <span id="totalPages">1</span></span>
+          <button class="pager-link" id="nextPage" type="button" aria-label="Next page">&gt;</button>
+          <button class="pager-link" id="lastPage" type="button" aria-label="Last page">&gt;|</button>
+          <select id="pageSize" aria-label="Products per page">
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100" selected>100</option>
+          </select>
+        </footer>
+      </section>
+
+      <section class="panel details-panel" aria-labelledby="detailName">
+        <header class="details-title">
+          <h2 id="detailName">Product Name</h2>
+          <strong id="detailId">Product Id</strong>
+        </header>
+
+        <section class="basic-product-section" aria-labelledby="basicProductHeading">
+          <div class="section-heading-row">
+            <div>
+              <h3 id="basicProductHeading">Basic Product Information</h3>
+              <p>Structured product details used to validate optimisation mappings.</p>
+            </div>
+            <div class="basic-product-heading-actions">
+              <label class="inactive-product-toggle" for="inactiveProduct">
+                <input id="inactiveProduct" type="checkbox" disabled />
+                <span>Inactive</span>
+              </label>
+              <button class="edit-btn section-edit-button" id="editBasicProduct" type="button">
+                <svg class="edit-icon" aria-hidden="true">
+                  <use href="#editIcon"></use>
+                </svg><span>Edit</span>
+              </button>
+            </div>
+          </div>
+
+          <form class="basic-product-form" id="basicProductForm">
+            <div class="field-group product-name-field">
+              <label for="productName">Product Name</label>
+              <input id="productName" name="productName" type="text" disabled />
+            </div>
+
+            <div class="ingredients-field">
+              <div class="ingredients-heading">
+                <span>Active Ingredient and Strength</span>
+                <button class="inline-add-button" id="addIngredient" type="button" hidden>+ Add Ingredient</button>
+              </div>
+              <div class="ingredient-rows" id="ingredientRows"></div>
+              <datalist id="ingredientOptions"></datalist>
+            </div>
+
+            <div class="field-group">
+              <label for="dosageForm">Dosage Form</label>
+              <select id="dosageForm" name="dosageForm" disabled>
+                <option>Tablet</option>
+                <option>Caplet</option>
+                <option>Capsule</option>
+                <option>Oral Solution</option>
+                <option>Oral Suspension</option>
+                <option>Syrup</option>
+                <option>Oral Spray</option>
+                <option>Cream</option>
+                <option>Ointment</option>
+                <option>Gel</option>
+                <option>Lotion</option>
+                <option>Inhaler</option>
+                <option>Nebuliser Solution</option>
+                <option>Injection</option>
+                <option>Infusion</option>
+                <option>Eye Drops</option>
+                <option>Ear Drops</option>
+                <option>Nasal Spray</option>
+                <option>Nasal Drops</option>
+                <option>Suppository</option>
+                <option>Pessary</option>
+                <option>Enema</option>
+                <option>Patch</option>
+                <option>Powder</option>
+                <option>Granules</option>
+                <option>Sachet</option>
+                <option>Lozenge</option>
+                <option>Mouthwash</option>
+                <option>Foam</option>
+                <option>Emulsion</option>
+                <option>Implant</option>
+                <option>Medical Device</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="route">Route</label>
+              <select id="route" name="route" disabled>
+                <option>Oral</option>
+                <option>Topical</option>
+                <option>Inhalation</option>
+                <option>Injection</option>
+                <option>Ophthalmic</option>
+                <option>Otic / Ear</option>
+                <option>Nasal</option>
+                <option>Rectal</option>
+                <option>Vaginal</option>
+                <option>Transdermal</option>
+                <option>Buccal</option>
+                <option>Sublingual</option>
+                <option>Urethral</option>
+                <option>Needs Review</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="releaseType">Release Type</label>
+              <select id="releaseType" name="releaseType" disabled>
+                <option>Standard</option>
+                <option>Modified Release</option>
+                <option>Prolonged Release</option>
+                <option>Sustained Release</option>
+                <option>Extended Release</option>
+                <option>Controlled Release</option>
+                <option>Long Acting</option>
+                <option>Gastro-resistant</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="formulationModifier">Formulation Modifier</label>
+              <select id="formulationModifier" name="formulationModifier" disabled>
+                <option>None</option>
+                <option>Film-coated</option>
+                <option>Enteric-coated</option>
+                <option>Dispersible</option>
+                <option>Orodispersible</option>
+                <option>Chewable</option>
+                <option>Effervescent</option>
+                <option>Soluble</option>
+                <option>Sugar-free</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field-group conditional-other" id="dosageFormOtherGroup" hidden>
+              <label for="dosageFormOther">Other Dosage Form</label>
+              <input id="dosageFormOther" name="dosageFormOther" type="text" disabled />
+            </div>
+
+            <div class="field-group conditional-other" id="routeOtherGroup" hidden>
+              <label for="routeOther">Other Route</label>
+              <input id="routeOther" name="routeOther" type="text" disabled />
+            </div>
+
+            <div class="field-group conditional-other" id="releaseTypeOtherGroup" hidden>
+              <label for="releaseTypeOther">Other Release Type</label>
+              <input id="releaseTypeOther" name="releaseTypeOther" type="text" disabled />
+            </div>
+
+            <div class="field-group conditional-other" id="formulationModifierOtherGroup" hidden>
+              <label for="formulationModifierOther">Other Formulation Modifier</label>
+              <input id="formulationModifierOther" name="formulationModifierOther" type="text" disabled />
+            </div>
+
+            <div class="field-group">
+              <label for="packQuantity">Pack Size</label>
+              <div class="split-field">
+                <input id="packQuantity" name="packQuantity" type="number" min="0" step="any" inputmode="decimal"
+                  disabled />
+                <select id="packUnit" name="packUnit" disabled>
+                  <option>Tablets</option>
+                  <option>Caplets</option>
+                  <option>Capsules</option>
+                  <option>ml</option>
+                  <option>g</option>
+                  <option>Ampoules</option>
+                  <option>Vials</option>
+                  <option>Sachets</option>
+                  <option>Patches</option>
+                  <option>Inhalers</option>
+                  <option>Doses</option>
+                  <option>Cartridges</option>
+                  <option>Suppositories</option>
+                  <option>Pessaries</option>
+                  <option>Pre-filled Syringes</option>
+                  <option>Bottles</option>
+                  <option>Units</option>
+                  <option>Each</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group secondary-pack-field" id="secondaryPackGroup">
+              <label for="secondaryQuantity">Secondary Pack <span>(optional)</span></label>
+              <div class="split-field">
+                <input id="secondaryQuantity" name="secondaryQuantity" type="number" min="0" step="any"
+                  inputmode="decimal" disabled />
+                <select id="secondaryUnit" name="secondaryUnit" disabled>
+                  <option value=""></option>
+                  <option>Tablets</option>
+                  <option>Caplets</option>
+                  <option>Capsules</option>
+                  <option>ml</option>
+                  <option>g</option>
+                  <option>Ampoules</option>
+                  <option>Vials</option>
+                  <option>Sachets</option>
+                  <option>Patches</option>
+                  <option>Inhalers</option>
+                  <option>Doses</option>
+                  <option>Cartridges</option>
+                  <option>Suppositories</option>
+                  <option>Pessaries</option>
+                  <option>Pre-filled Syringes</option>
+                  <option>Bottles</option>
+                  <option>Units</option>
+                  <option>Each</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="productType">Product Type</label>
+              <select id="productType" name="productType" disabled>
+                <option>Generic</option>
+                <option>Brand</option>
+                <option>PI</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field-group category-field">
+              <label id="categoryLabel" for="category">PMR Category</label>
+              <div class="basic-category-picker">
+                <button class="basic-category-trigger" id="category" type="button"
+                  aria-labelledby="categoryLabel categoryValue" aria-haspopup="listbox" aria-expanded="false" disabled>
+                  <span id="categoryValue"></span><span class="category-caret" aria-hidden="true"></span>
+                </button>
+                <div class="basic-category-menu" id="basicCategoryMenu" hidden>
+                  <p>Select one or more PMR categories</p>
+                  <div class="basic-category-options" id="basicCategoryOptions" role="listbox"
+                    aria-multiselectable="true"></div>
+                </div>
+              </div>
+              <datalist id="categoryOptions"></datalist>
+            </div>
+
+            <datalist id="manufacturerOptions"></datalist>
+
+            <p class="form-error basic-product-error" id="basicProductError" role="alert"></p>
+
+            <div class="basic-form-actions" id="basicFormActions" hidden>
+              <button class="btn btn-purple" type="submit">Save Changes</button>
+              <button class="secondary-button" id="cancelBasicProduct" type="button">Cancel</button>
+            </div>
+          </form>
+        </section>
+
+        <div class="concession-summary">
+          <label><input id="concessionCheckbox" type="checkbox" disabled /> <span>Concession</span></label>
+        </div>
+
+        <div class="main-tabs" role="tablist" aria-label="Product details">
+          <button class="main-tab" type="button" role="tab" data-main-tab="pip" aria-selected="false">PIP Codes</button>
+          <button class="main-tab active" type="button" role="tab" data-main-tab="mapping" aria-selected="true">Product Mapping</button>
+          <button class="main-tab" type="button" role="tab" data-main-tab="audit" aria-selected="false">Audit History</button>
+        </div>
+
+        <section class="tab-panel" data-main-panel="pip" hidden>
+          <div class="subsection-header compact-header">
+            <h3>PIP Codes Details</h3>
+            <div class="actions">
+              <button class="btn btn-purple" id="newPipCode" type="button"><span class="btn-icon plus-icon"
+                  aria-hidden="true"></span>New PIP Code</button>
+              <button class="btn btn-green" id="uploadPipExcel" type="button"><span class="btn-icon upload-icon"
+                  aria-hidden="true"></span>Upload Excel</button>
+            </div>
+          </div>
+          <div class="table-wrap detail-table-wrap" tabindex="0">
+            <table class="data-table detail-data-table" data-resizable-table="pip-codes">
+              <thead>
+                <tr>
+                  <th class="edit-col">Edit</th>
+                  <th>Company Type</th>
+                  <th>Company Name</th>
+                  <th>PIP Code</th>
+                </tr>
+              </thead>
+              <tbody id="pipCodesBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="tab-panel active" data-main-panel="mapping">
+          <div class="mapping-banner" role="note">Link equivalent products for Brand Equalisation, PI and Pack mapping.
+            These mappings are used to show better buying options in Cascade.</div>
+          <div class="mapping-subtabs" role="tablist" aria-label="Product mapping types">
+            <button class="mapping-subtab active" type="button" role="tab" data-mapping-tab="brand"
+              aria-selected="true">Brand-Generic Equalisation <span id="brandCount">(0)</span></button>
+            <button class="mapping-subtab" type="button" role="tab" data-mapping-tab="pi" aria-selected="false">PI
+              Equivalent <span id="piCount">(0)</span></button>
+            <button class="mapping-subtab" type="button" role="tab" data-mapping-tab="pack" aria-selected="false">Pack
+              Equivalent <span id="packCount">(0)</span></button>
+          </div>
+          <div class="mapping-heading-row">
+            <div>
+              <h3 id="mappingHeading">Brand -Generic Equalisation</h3>
+              <p id="mappingDescription">Link approved branded and generic products that can be compared during
+                ordering.</p>
+            </div>
+            <div class="mapping-actions">
+              <button class="unlink-button" id="unlinkMappingsButton" type="button"
+                aria-label="Unlink selected products" disabled><svg class="unlink-icon" aria-hidden="true">
+                  <use href="#binIcon"></use>
+                </svg><span>Unlink</span></button>
+              <button class="btn btn-purple" id="addMappingButton" type="button"><span class="btn-icon plus-icon"
+                  aria-hidden="true"></span><span>Add Brand Equivalent</span></button>
+            </div>
+          </div>
+          <div class="table-wrap mapping-table-wrap" tabindex="0">
+            <table class="data-table mapping-table" data-resizable-table="product-mapping">
+              <thead>
+                <tr>
+                  <th class="mapping-select-col"><input id="selectAllMappings" type="checkbox"
+                      aria-label="Select all linked products" /></th>
+                  <th>Product ID</th>
+                  <th class="mapping-name-col">Product Name</th>
+                  <th>Type</th>
+                  <th>Pack Size</th>
+                  <th>Linked On</th>
+                </tr>
+              </thead>
+              <tbody id="mappingBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="tab-panel" data-main-panel="audit" hidden>
+          <div class="subsection-header compact-header">
+            <h3>Audit History</h3>
+            <div class="actions">
+              <button class="btn btn-pink audit-export-button" id="exportAuditHistory" type="button"><span
+                  class="btn-icon export-icon" aria-hidden="true"></span>Export Audit History</button>
+            </div>
+          </div>
+          <div class="table-wrap audit-table-wrap" tabindex="0">
+            <table class="data-table audit-table" data-resizable-table="audit-history">
+              <thead>
+                <tr>
+                  <th>Date / Time</th>
+                  <th>Action</th>
+                  <th>Details</th>
+                  <th>Updated By</th>
+                </tr>
+              </thead>
+              <tbody id="auditBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </div>
+
+    <footer class="legacy-footer">2020 &copy; PBR - Luxsh Technologies. Version 1.0 01 Jun 2020</footer>
+  </main>
+
+  <dialog class="admin-dialog product-search-dialog" id="productSearchDialog"
+    aria-labelledby="productSearchDialogTitle">
+    <form method="dialog" class="dialog-shell" id="productSearchForm">
+      <header class="dialog-header product-search-dialog-header">
+        <div>
+          <h2 id="productSearchDialogTitle">Search Product Details</h2>
+        </div>
+        <button class="dialog-close" value="cancel" aria-label="Close">&times;</button>
+      </header>
+      <div class="dialog-body product-search-dialog-body">
+        <label>Product Name
+          <input id="productSearchInput" type="search" autocomplete="off" />
+        </label>
+        <label>Product Category
+          <select id="productSearchCategory">
+            <option value="">All categories</option>
+          </select>
+        </label>
+        <label>PIP Code
+          <input id="productSearchPip" type="search" inputmode="numeric" autocomplete="off" />
+        </label>
+        <label>Created Date From
+          <input id="productSearchCreatedFrom" type="date" />
+        </label>
+        <label>Created Date To
+          <input id="productSearchCreatedTo" type="date" />
+        </label>
+      </div>
+      <footer class="dialog-footer product-search-dialog-footer">
+        <button class="secondary-button search-cancel-button" value="cancel" type="submit"><span
+            aria-hidden="true">&times;</span> Cancel</button>
+        <button class="btn search-clear-button" id="clearProductSearch" type="button"><span
+            aria-hidden="true">&#9003;</span> Clear</button>
+        <button class="btn btn-green" value="default" type="submit"><span class="btn-icon search-icon"
+            aria-hidden="true"></span>Search</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="admin-dialog mapping-dialog" id="mappingDialog" aria-labelledby="mappingDialogTitle">
+    <form method="dialog" class="dialog-shell" id="mappingDialogForm">
+      <header class="dialog-header">
+        <div>
+          <h2 id="mappingDialogTitle">Add Brand Equivalent</h2>
+          <p id="mappingDialogHelp">Search by product name, PIP code or Product ID.</p>
+        </div>
+        <button class="dialog-close" value="cancel" aria-label="Close">&times;</button>
+      </header>
+      <div class="dialog-body">
+        <label class="dialog-search" for="mappingSearchInput">Search
+          <span><input id="mappingSearchInput" type="search" autocomplete="off"
+              placeholder="Product name, PIP code or Product ID" /><button class="btn btn-green"
+              id="mappingSearchButton" type="button">Search</button></span>
+        </label>
+        <div class="mapping-results-heading">
+          <strong id="mappingResultsTitle">Suggested matches</strong>
+          <span id="mappingResultsHint">Based on matching structured product information.</span>
+        </div>
+        <div class="table-wrap modal-results-wrap">
+          <table class="data-table modal-results-table">
+            <thead>
+              <tr>
+                <th class="select-col">Select</th>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Type</th>
+                <th>Pack Size</th>
+                <th>Match Status</th>
+              </tr>
+            </thead>
+            <tbody id="mappingResultsBody">
+              <tr>
+                <td class="empty-row" colspan="6">Enter at least two characters to search products.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <section class="selected-product-details" id="selectedProductDetails" hidden>
+          <h3>Selected Product Details</h3>
+          <div class="selected-product-summary" id="selectedProductSummary"></div>
+          <div class="comparison-grid" id="comparisonGrid"></div>
+          <div class="validation-message" id="validationMessage"></div>
+          <label class="review-confirmation" id="reviewConfirmation" hidden><input id="reviewAcknowledgement"
+              type="checkbox" /> I have reviewed the differences and want to link this product.</label>
+        </section>
+      </div>
+      <footer class="dialog-footer">
+        <button class="btn btn-purple" id="confirmAddMapping" value="default" type="submit" disabled>Add
+          Product</button>
+        <button class="secondary-button" value="cancel" type="submit">Cancel</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="admin-dialog small-dialog" id="pipDialog" aria-labelledby="pipDialogTitle">
+    <form method="dialog" class="dialog-shell" id="pipDialogForm">
+      <header class="dialog-header">
+        <div>
+          <h2 id="pipDialogTitle">New PIP Code</h2>
+          <p>Add a supplier or manufacturer PIP code for this product.</p>
+        </div><button class="dialog-close" value="cancel" aria-label="Close">&times;</button>
+      </header>
+      <div class="dialog-body dialog-form-grid">
+        <label>Product ID<input id="pipProductId" type="text" readonly /></label>
+        <label>PIP Code<input id="pipCodeInput" type="text" inputmode="numeric" required /></label>
+        <label>Company Type<select id="pipCompanyType">
+            <option>Supplier</option>
+            <option>Manufacturer</option>
+          </select></label>
+        <label>Company Name<input id="pipCompanyName" type="search" list="manufacturerOptions" required /></label>
+        <p class="form-error" id="pipFormError" role="alert"></p>
+      </div>
+      <footer class="dialog-footer"><button class="btn btn-purple" id="savePipCode" value="default" type="submit">Save
+          PIP Code</button><button class="secondary-button" value="cancel" type="submit">Cancel</button></footer>
+    </form>
+  </dialog>
+
+  <dialog class="admin-dialog small-dialog" id="importDialog" aria-labelledby="importDialogTitle">
+    <form method="dialog" class="dialog-shell" id="importDialogForm">
+      <header class="dialog-header">
+        <div>
+          <h2 id="importDialogTitle">Upload PIP Codes</h2>
+          <p>Imports are validated before any records are changed.</p>
+        </div><button class="dialog-close" value="cancel" aria-label="Close">&times;</button>
+      </header>
+      <div class="dialog-body">
+        <ol class="import-steps" aria-label="Import progress">
+          <li class="active" data-import-step="upload">Upload</li>
+          <li data-import-step="validate">Validate</li>
+          <li data-import-step="errors">Show Errors</li>
+          <li data-import-step="review">Admin Review</li>
+          <li data-import-step="confirm">Confirm Import</li>
+        </ol>
+        <label class="file-drop" for="pipImportFile"><strong>Choose an Excel or CSV file</strong><span>No records will
+            be overwritten at this stage.</span><input id="pipImportFile" type="file"
+            accept=".xls,.xlsx,.csv" /></label>
+        <div class="import-review" id="importReview" hidden></div>
+        <label class="review-confirmation" id="importReviewConfirmation" hidden><input id="importReviewCheckbox"
+            type="checkbox" /> I have reviewed the validation results.</label>
+      </div>
+      <footer class="dialog-footer"><button class="btn btn-purple" id="confirmImport" value="default" type="submit"
+          disabled>Confirm Import</button><button class="secondary-button" value="cancel" type="submit">Cancel</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="admin-dialog new-product-dialog" id="newProductDialog" aria-labelledby="newProductDialogTitle">
+    <form method="dialog" class="dialog-shell" id="newProductForm" novalidate>
+      <header class="dialog-header">
+        <div>
+          <h2 id="newProductDialogTitle">Add New Product</h2>
+        </div><button class="dialog-close" id="closeNewProduct" type="button" aria-label="Close">&times;</button>
+      </header>
+      <div class="dialog-body dialog-form-grid new-product-form-grid">
+        <label>Product Name<span class="required-mark">*</span><input id="newProductName" type="text"
+            required /></label>
+        <div class="new-product-category-field">
+          <label id="newProductCategoryLabel">PMR Category<span class="required-mark">*</span></label>
+          <div class="basic-category-picker new-product-category-picker">
+            <button class="basic-category-trigger" id="newProductCategory" type="button"
+              aria-labelledby="newProductCategoryLabel newProductCategoryValue" aria-haspopup="listbox"
+              aria-expanded="false" aria-required="true">
+              <span id="newProductCategoryValue">Select PMR categories</span><span class="category-caret"
+                aria-hidden="true"></span>
+            </button>
+            <div class="basic-category-menu" id="newProductCategoryMenu" hidden>
+              <p>Select one or more PMR categories</p>
+              <div class="basic-category-options" id="newProductCategoryOptions" role="listbox"
+                aria-multiselectable="true"></div>
+            </div>
+          </div>
+        </div>
+        <p class="form-error" id="newProductError" role="alert"></p>
+      </div>
+      <footer class="dialog-footer"><button class="btn btn-purple" value="default" type="submit"><span
+            class="btn-icon plus-icon" aria-hidden="true"></span>Add Product</button><button class="secondary-button"
+          id="cancelNewProduct" type="button"><span aria-hidden="true">&times;</span> Close</button></footer>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+
+</html>
